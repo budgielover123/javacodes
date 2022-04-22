@@ -685,5 +685,78 @@ echo "Your City Is : $_COOKIE[ct]</br>";
 echo "Your Percentage Is : $_COOKIE[perc]</br>";
 ?>
 
+Que 24. Consider the following entities and their relationship
+emp (emp_no,emp_name,address,phone,salary)
+Create a RDB in 3NF for the above and solve the following : 
+A)insert employee records in a table
+B) print a salary statement in the format given below for a given department.
+
+<html>
+ <head>
+   <title> empdept </title>
+ </head>
+<body>
+
+<form action="slip_24.php" method="get">
+
+<center>
+<h2> Fill employee details : </h2><br>
+
+<h3> Enter employee no :<input type="text" name="eno"> </h3>
+<h3> Enter employee name :<input type="text" name="ename"> </h3>
+<h3> Enter address :<input type="text" name="addr"> </h3>
+<h3> Enter phone :<input type="text" name="phn"> </h3>
+<h3> Enter salary :<input type="text" name="sal"> </h3>
+<h3> Enter department no :<input type="text" name="dno"> </h3>
+<h3> Enter department name :<input type="text" name="dname"> </h3>
+<h3> Enter location :<input type="text" name="loc"> </h3>
+
+<br>
+
+<input type="submit" value="OK">
+</center>
+
+</form>
+<div id="place"></div>
+</body>
+</html>
+       
+       23) consider the following relational database : project(P_group_no,project_title)
+       student(seat no,name,class,p_group_no)
+<html>
+<head>
+    <title> STUDPROJ </title>
+</head>
+
+<body>
+
+<form method="get" action="slip_23.php">
+
+  Project title : <input type="text" name="ptitle"> 
+
+  <input type="submit" value="Submit">
+
+</form>
+
+</body>
+</html> 
+ 
+ <?php
+ -------
+$ptitle=$_GET['ptitle'];
+$con=mysqli_connect("localhost","root","","q23");
+$q=mysqli_query($con,"select sname from
+stud,proj where ptitle='$ptitle' &&
+stud.pno=proj.pno");
+
+echo "Student name : <br>";
+while($row=mysqli_fetch_array($q))
+{
+echo $row['sname'];
+}
+mysqli_close($con);
+?>
+
+ 
  
 
