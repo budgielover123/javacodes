@@ -1,0 +1,689 @@
+1)Write a PHP program to create a simple calculator calculator that can accept two numbers numbers and perform perform operation operations like add, subtract, subtract, multiplication multiplication and divide (using Self Processing accessing form)
+<HTML>
+<BODY>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+<B>First Number:</b><input type="text" name="num1">
+<B>Second Number:</b><input type="text" name="num2">
+<input type="radio" name="cal" value="add"> Add
+<input type="radio" name="cal" value="sub"> Sub
+<input type="radio" name="cal" value="mult"> Multy
+<input type="radio" name="cal" value="div"> Division
+<input type="submit" name="submit">
+</form>
+<?php
+if(isset($_POST['submit']))
+{
+$n1=(int)$_POST['num1'];
+$n2=(int)$_POST['num2'];
+$c=trim($_POST['cal']);
+if(strcmp($c,"add") == 0){$result=$n1+$n2; echo"$n1+$n2=$result";}
+if(strcmp($c,"sub")== 0){$result=$n1-$n2; echo"$n1-$n2=$result";}
+if(strcmp($c,"mult")== 0){$result=$n1*$n2; echo"$n1*$n2=$result";}
+if(strcmp($c,"div")== 0){$result=$n1/$n2; echo"$n1/$n2=$result";}
+}
+?>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+2)Create a login form with a username and password. Once the user logs in, the second form should be displayed to accept user details (name, city, phone no). If the user doesn’t enter information within a specified time limit, expire his session and give a warning otherwise Display Details($_SESSION).
+Login.html
+<html>
+<form method="POST" action="login.php" >
+<p>User Name: <input type="text" name="user"><br>
+<p>Password :<input type="password"><br><br>
+<input type="submit" value="Login"><br>
+</form>
+</html>
+Login.php
+<?php
+$auth_yes=0;
+session_start();
+session_register();
+#tm=time();
+?>
+
+<form method="GET" action="new.php">
+<fieldset>
+<legend>Enter username and password</legend>
+
+<p>Roll_No:&nbsp&nbsp&nbsp<input type="text" name="rno"><br>
+<p>Name:&nbsp&nbsp&nbsp<input type="text" name="nm"><br>
+<p>City:&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp<input type="text" name="ct"><br><br>
+<input type="submit" value=Submit>
+</form>
+New.php
+<?php
+$a=$_GET['rno'];
+$b=$_GET['nm'];
+$c=$_GET['ct'];
+session_start();
+$newt = $tm+60;
+if($newt > time())
+echo"time out";
+else
+{
+echo"Roll_No=$a"."<br>";
+echo"Name=$b"."<br>";
+echo"City=$c"."<br>";
+}
+session_destroy();
+
+?>
+
+ 
+
+                                                                                                     
+
+3) Write a PHP Script create login form and validate it (Use database and Sticky form concept)
+<html>
+<head>
+<title>Sticky Form</title><
+</head>
+<body>
+<form action="<?php echo $_SERVER['PHP_SELF']?>" method=post> <input type=text name=txtuname value="<?php if(isset($_POST['txtuname']))echo $_POST['txtuname'];?>" >
+<input type=password name=txtupass value="<?php if(isset($_POST['txtupass']))echo $_POST['txtupass'];?>" >
+<input type=submit value="Login" name=submit>
+<?php
+if(isset($_POST['submit']))
+$nm=$_POST['txtuname'];
+$ps=$_POST['txtupass'];
+$con=mysql_connect("localhost","root","rsb");
+mysql_elect_db("slip6db",$con);
+$result=mysql_query("select * from login where uname='$nm' and upass='$ps'");
+$flag=0;
+while($row=mysql_fetch_array($result))
+{
+$flag++;
+}
+if($flag==1)
+echo "Login validated";
+else
+echo "username or password invalid";
+?>
+</body>
+</html>
+ 
+
+ 
+
+
+4) Create a form to accept employee details like name, address and mobile number. Once the employee information is accepted, then accept LIC information like policy_no, name, premium. Display employee details and LIC details on next form.(use COOKIE)
+Emp.html
+
+<html>
+<body>
+<form method="POST" action="Lic.php">
+Enter EMP No : <input type=text name="eno"><br>
+Enter EMP Name : <input type=text name="name"><br>
+Enter Address : <input type=text name="addr"><br>
+<input type=submit value=Submit>
+</form>
+</body>
+</html>
+
+
+
+LIC.php
+<?php
+session_start();
+$_SESSION['eno']=$_POST['eno'];
+$_SESSION['name']=$_POST['name'];
+$_SESSION['addr']=$_POST['addr'];
+echo"Hello ".$_SESSION['name']." enter LIC details<br>";
+?>
+<form method="POST" action="Display.php">
+Plan No:<input type="text" name="pno"><br>
+Plan Name :<input type="text" name="pname"><br>
+Premium :<input type="text" name="pre"><br>
+<input type=submit value=Display>
+</form>
+Display.php
+
+<?php
+    session_start();
+            echo"<Center>"."<b>Employee Details</b>"."<br>";
+            echo"Emp No:".$_SESSION['eno']."<br>";
+            echo"Emp name:".$_SESSION['name']."<br>";
+            echo"Address:".$_SESSION['addr']."<br>"."<hr>";
+            echo"<b>LIC Plan Details:</b>"."<br>";
+            echo"Plan No:".$_REQUEST['pno']."<br>";
+            echo"Plan Name:".$_REQUEST['pname']."<br>";
+            echo"Premium:".$_REQUEST['pre']."<br>"."<hr>";
+
+ ?>
+ 
+
+
+ 
+ 
+
+5) Write a script to keep track of number of times the web page has been accessed (use $_COOKIE)
+<html>
+<body>
+<SCRIPT>
+function GetCookie (name)
+{
+            var arg = name + "=";
+            var alen = arg.length;
+            var clen = document.cookie.length;
+            var i = 0;
+            while (i < clen)
+            {
+                        var j = i + alen;
+                        if (document.cookie.substring(i, j) == arg)
+                        return getCookieVal (j);
+                        i = document.cookie.indexOf(" ", i) + 1;
+                        if (i == 0) break;
+            }
+            return null;
+}
+function SetCookie (name, value)
+{
+            var argv = SetCookie.arguments;
+            var argc = SetCookie.arguments.length;
+            var expires = (argc > 2) ? argv[2] : null;
+            var path = (argc > 3) ? argv[3] : null;
+            var domain = (argc > 4) ? argv[4] : null;
+            var secure = (argc > 5) ? argv[5] : false;
+            document.cookie = name + "=" + escape (value) +
+            ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
+            ((path == null) ? "" : ("; path=" + path)) +
+            ((domain == null) ? "" : ("; domain=" + domain)) +
+            ((secure == true) ? "; secure" : "");
+}
+function DeleteCookie (name)
+{
+            var exp = new Date();
+            exp.setTime (exp.getTime() - 1);
+            var cval = GetCookie (name);
+            document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+}
+var expDays = 30;
+var exp = new Date();
+exp.setTime(exp.getTime() + (expDays*24*60*60*1000));
+
+function amt()
+{
+            var count = GetCookie('count')
+            if(count == null)
+            {
+                        SetCookie('count','1')
+                        return 1
+            }
+            else
+            {
+                        var newcount = parseInt(count) + 1;
+                        DeleteCookie('count')
+                        SetCookie('count',newcount,exp)
+                        return count
+            }
+}
+function getCookieVal(offset)
+{
+            var endstr = document.cookie.indexOf (";", offset);
+            if (endstr == -1)
+            endstr = document.cookie.length;
+            return unescape(document.cookie.substring(offset, endstr));
+}
+</SCRIPT>
+<SCRIPT>
+            document.write("You've been here <b>" + amt() + "</b> times.")
+</SCRIPT>
+</body>
+
+</html>
+ 
+
+
+6) Write a PHP script to accept username and password. If in the first three chances, username and password entered is correct then display second form with ‘welcome message’ otherwise display error message. [ Use Session]
+HTML file :
+
+<html>
+<head>
+<script>
+                function getans()
+                {
+                                st1=document.getElementById('txtname').value;
+                                st2=document.getElementById('txtpass').value;
+                                ob=new XMLHttpRequest();
+             
+                                ob.onreadystatechange=function()
+                                {
+                                                if(ob.readyState==4 && ob.status==200)
+                                                {
+                                                                if(ob.responseText==3)
+                                                                {
+                                                                                alert("no chances left to login");
+                                                                                location="error.html";
+                                                                }
+                                                                else if(ob.responseText=="correct")
+                                                                {
+                                                                                alert("login successful");
+                                                                }
+                                                                else alert(ob.responseText);   
+                                                }                                           
+                                }           
+                                ob.open("GET","slip8_Q2.php?n="+st1+"&p="+st2);
+                                ob.send();
+                }
+</script>
+</head>
+<body>
+<input type=text id=txtname placeholder="username"></br>
+<input type=password id=txtpass placeholder="password"></br>
+<input type="button" onclick="getans()" value="Login">
+
+</body>
+</html>
+
+HTML file :  error.html
+
+<html>
+<body>
+<h1> no chances left to login </h1>
+</body>
+</html>
+
+PHP file :
+<?php
+                session_start();
+                $nm=$_GET['n'];
+                $ps=$_GET['p'];
+                if($nm==$ps)
+                {
+                                echo "correct";
+                }
+                else if(isset($_SESSION['cnt']))
+                                                {
+                                                                $x=$_SESSION['cnt'];
+                                                                $x=$x+1;
+                                                                $_SESSION['cnt']=$x;
+                                                                echo $_SESSION['cnt'];
+                                                             
+                                                                if($_SESSION['cnt']>=3)
+                                                                $_SESSION['cnt']=1;
+                                                }
+                                                else
+                                                {
+                                                                $_SESSION['cnt']=1;
+                                                                echo "1";
+                                                }
+?>
+
+ 
+
+
+
+7) Create a form to accept student information (name, class, address). Once the student information is accepted, accept marks in next form (Java, PHP, ST, IT, pract1, and project).Display the mark sheet for the student in the next form containing name, class, marks of thesubject, total and percentage(Use $_COOKIE).
+Html file :
+<html>
+<body>
+
+<form action="slip_10-1.php" method="post">
+<center>
+<h2>Enter Students information :</h2>
+
+<table>
+<tr><td>Name : </td><td><input type="text" name="name"></td><tr>
+<tr><td>Address : </td><td><input type="text" name="addr"></td></tr>
+<tr><td>Class : </td><td><input type="text" name="class"></td></tr>
+<tr><td></td><td><input type="submit" value=Next></td></tr>
+</table>
+</center>
+
+</form>
+</body>
+</html>
+Php file :
+Student-1.php :
+<html>
+<body>
+
+<form action="slip_10-2.php" method="post">
+<center>
+<h2>Enter Marks for Student:</h2>
+
+<table>
+<tr><td>Java : </td><td><input type="text" name="m1"></td><tr>
+<tr><td>PHP : </td><td><input type="text" name="m2"></td></tr>
+<tr><td>ST : </td><td><input type="text" name="m3"></td></tr>
+<tr><td>IT : </td><td><input type="text" name="m4"></td></tr>
+<tr><td>Practical : </td><td><input type="text" name="m5"></td></tr>
+<tr><td>Project : </td><td><input type="text" name="m6"></td></tr>
+<tr><td></td><td><input type="submit" value=Next></td></tr>
+</table>
+</center>
+
+</form>
+</body>
+</html>
+
+<?php
+setcookie("stud1",$_POST['name'],time()+3600);
+setcookie("stud2",$_POST['addr'],time()+3600);
+setcookie("stud3",$_POST['class'],time()+3600);
+?>
+
+Student-2.php :
+
+<?php
+echo "<h3>Marksheet</h3> ";
+
+echo "Name : ".$_COOKIE['stud1']."<br>";
+echo "Address : ".$_COOKIE['stud2']."\n";
+echo "Class : ".$_COOKIE['stud3']."\n";
+
+echo "Java : ".$_POST['m1']."\n";
+echo "PHP : ".$_POST['m2']."\n";
+echo "ST : ".$_POST['m3']."\n";
+echo "IT : ".$_POST['m3']."\n";
+echo "Practical : ".$_POST['m3']."\n";
+echo "Project : ".$_POST['m3']."\n";
+>?
+   
+
+
+
+ 
+8) Write a program to create a shopping mall. User must be allowed to do purchase from three pages. Each page should have a page total. The fourth page should display a bill, which consists of a page total of whatever the purchase has been done and print the total. (Use $_SESSION).
+1.php-
+<?php
+session_start();
+if(!isset($_SESSION['total']))
+{
+$_SESSION['total']=0;
+}
+if(isset($_POST['submit']))
+{
+$_SESSION['pname']="KACHI GHANI MUSTARD OIL (L)";
+$_SESSION['amt']="100";
+$_SESSION['total']=$_SESSION['total']+100;
+}
+?>
+<html>
+<head>
+</head>
+<body>
+<h1<center>shopping mall</center> Total :<span style="color:red<?php if(isset($_SESSION['total'])){echo $_SESSION['total'];}?></span</h1>
+<table style="width:100%">
+<tr>
+<th><a href="1.php">1</a></th>
+<th><a href="2.php">2</a></th>
+<th><a href="3.php">3</a></th>
+<th><a href="Final.php">Final</a></th>
+</tr>
+</table>
+Product 1:
+<FORM ACTION="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+<table style="width:100%" border=1>
+<tr>
+<th>Product Image</th>
+<th>Product Name</th>
+<th>Price </th>
+<th>action</th>
+</tr>
+<tr>
+<th><img src="img/1.png"height="200" Width="200"> </th>
+<th>KACHI GHANI MUSTARD OIL (L)</th>
+<th>100</th>
+<th>
+<input type=submit name=submit value="buy">
+</form></th>
+</tr>
+</table>
+</body>
+</html>
+
+2.php-
+<?php
+session_start();
+if(!isset($_SESSION['total']))
+{
+$_SESSION['total']=0;
+}
+if(isset($_POST['submit']))
+{
+$_SESSION['pname']=$_SESSION['pname'].","."Patanjali Saundarya Face WashOIL (L)";
+$_SESSION['amt']=$_SESSION['amt'].","."50";
+$_SESSION['total']=$_SESSION['total']+50;
+}
+?>
+<html>
+<head>
+</head>
+<body>
+<h1<center>shopping mall</center> Total :<span style="color:red;"><?php if(isset($_SESSION['total'])){echo $_SESSION['total'];}?></span></h1>
+<table style="width:100%">
+<tr<br> <th<a href="1.php">1</a</th>
+<th<a href="2.php">2</a</th>
+<th><a href="3.php">3</a></th>
+<th<a href="Final.php">Final</th>
+</tr>
+</table>
+Product 2:
+<FORM ACTION="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+<table style="width:100%" border=1>
+<tr>
+<th>Product Image</th>
+<th>Product Name</th>
+<th>Price </th>
+<th>action</th>
+</tr>
+<tr>
+<th><img src="img/2.jpg"height="200" Width="200"> </th>
+<th>Patanjali Saundarya Face Wash</th>
+<th>50</th>
+<th>
+<input type=submit name=submit value="buy">
+</form></th>
+</tr>
+</table>
+</body>
+</html>
+
+3.php-
+<?php
+session_start();
+if(!isset($_SESSION['total']))
+{
+$_SESSION['total']=0;
+}
+if(isset($_POST['submit']))
+{
+$_SESSION['pname']=$_SESSION['pname'].","."Patanjali mango juices";
+$_SESSION['amt']=$_SESSION['amt'].","."70";
+$_SESSION['total']=$_SESSION['total']+70;
+}
+?> <html>
+<head>
+</head>
+body>
+<h1><center>shopping mall<</center> Total <span style="color:red;"><?php if(isset($_SESSION['total'])){echo $_SESSION['total'];}?></span></h1>
+<table style="width:100%">
+<tr>
+<th><a href="1.php">1</a></th>
+<th><a href="2.php">2</a></th>
+<th><a href="3.php">3</a></th>
+<th><a href="Final.php">Final</a></th>
+</tr>
+</table>
+Product 3:
+<FORM ACTION="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+<table style="width:100%" border=1>
+<tr> <th>Product Imag</th>
+<th>Product Name</th>
+<th>Price </th>
+<th>action</th>
+</tr<br> <tr>
+<th<img src="img/3.jpg"height="200" Width="200"> </th>
+<th>Patanjali mango juices</th>
+<th>70<</th>
+<th>
+<input type=submit name=submit value="buy" >
+</form>
+</tr>
+</table>
+</body>
+</html>
+
+final.php
+<?php
+session_start();
+?>
+<html>
+<head>
+<script>
+function myFunction()
+{
+window.print();
+}
+</script>
+</head>
+<body>
+<h1><center>shopping mall</center> Total :<span style="color:red<?php if(isset($_SESSION['total'])){echo $_SESSION['total'];}?></span> <table style="width:100%">
+<tr>
+<th<a href="1.php">1</a></th>
+<th<a href="2.php">2</a</th>
+<th<a href="3.php">3</a></th>
+<th><a href="Final.php">Final</a></th>
+</tr>
+</table>
+<br>
+<br>
+<h2><center>Final Bill</center> Total :</h2>
+<table style="width:100%" border=1>
+<tr>br> <th>Product Name</th>
+<th>AMount /th>
+<th>Total</th>
+<th>Print</th>
+</tr>
+<tr>
+<th><?php if(isset($_SESSION['pname'])){echo $_SESSION['pname'];}?></th>
+<th><?php if(isset($_SESSION['amt'])){echo $_SESSION['amt'];}?></th>
+<th><span style="color:red;"><?php if(isset($_SESSION['total'])){echo $_SESSION['total'];}?></span></th>
+<th><button onclick="myFunction()">Print </button>
+</tr>
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+9) Write a PHP script for the following: Design a form to accept a number from the user. Perform the operations and show the results.
+1) Factorial of a number using Recursion.
+ 2) Add the digits of that number to reduce it to single digit.
+ (use the concept of self-processing page.)
+<html>
+<head>
+<title>slip12</title>
+</head>
+<body>
+<?php
+if($_SERVER['REQUEST_METHOD']=="GET")
+{
+?>
+<form action="<?php echo $_SERVER['PHP_SELF']?>" method=POST>
+<input type name=txtnumber placeholder="Enter a number ">
+<input type=submit value="calculate">
+</form>
+<?php
+}
+else if($_SERVER['REQUEST_METHOD']=="POST")
+{
+              function fact($n)
+              {
+                          if($n==1)
+                          {
+                                                  return 1;
+                                      }
+                                      else {   return($n*fact($n-1));
+                                                             
+              }
+              }
+              function singleval($n)
+              {
+                          while($n>9)
+                          {$sum=0;
+                                      while($n)                                                        
+                                      {
+                                                  $r=$n%10;
+                                                  $sum=$sum+$r;
+                                                  $n=$n/10;
+                                      }          
+                                      $n=$sum;                               
+                          }
+                          return $n;                    
+              }
+              echo fact($_POST['txtnumber']);
+              echo "</br>";
+              echo singleval($_POST['txtnumber']);
+}
+?>
+</body>
+</html>
+ 
+ 
+
+10)Create student registration form and display details in the next page. (Use sticky form concept).
+<html>
+<body>
+<table border=1>
+<tr><th colspan=2>
+<form action="<?php echo $_SERVER['PHP_SELF']?>" method=post>
+<tr><td>Enter Name</td><td><input type="text" name="nm" value="<?php if(isset($_POST['nm']))echo $_POST['nm']?>"<td></tr>
+<tr><td>Enter Roll No</td><td><input type="text" name="rno" value="<?php if(isset($_POST['rno']))echo $_POST['rno']?>"</td></tr>
+<tr><td>Enter State</td><td><input type="text" name="st" value="<?php if(isset($_POST['st']))echo $_POST['st']?>" </td></tr>
+<tr><td>Enter City</td><td><input type="text" name="ct" value="<?php if(isset($_POST['ct']))echo $_POST['ct']?>"</td></tr>
+<tr><td>Enter Percentage</td><td><input type="text" name="per" value="<?php if(isset($_POST['per']))echo $_POST['per']?>"</td></tr>
+<tr><td><input type="submit" value="Submit" name="submit"></td>
+<td><nput type="reset" value="Reset"></td></tr>
+</form>
+</table>
+<?php
+if(isset($_POST['submit']))
+{
+$nm=$_POST['nm'];
+$rno=$_POST['rno'];
+$st=$_POST['st'];
+$ct=$_POST['ct'];
+$perc=$_POST['per'];
+}
+if((!empty($nm)) && (!empty($rno)) && (!empty($st)) && (!empty($ct)) && (!empty($perc)))
+{
+setcookie('nm',$nm);
+setcookie('rno',$rno);
+setcookie('st',$st);
+setcookie('ct',$ct);
+setcookie('perc',$perc);
+echo "U r Value is set";
+}
+?>
+<a href="slip14_1.php">show
+</body>
+</html>
+
+slip10_1.php-
+<?php
+echo "Your name is $_COOKIE[nm] </br>";
+echo "Your Roll No Is : $_COOKIE[rno]</br>";
+echo "Your State Is : $_COOKIE[st]</br>";
+echo "Your City Is : $_COOKIE[ct]</br>";
+echo "Your Percentage Is : $_COOKIE[perc]</br>";
+?>
+
+ 
+
